@@ -18,3 +18,10 @@
   segment (§7.2); Javadoc `*/` escaping and no-invented-filler rule (§9);
   §8.1 normative support sources updated to the emitted bytes; §4.2 group-2
   mangling scoped to lowerCamel positions.
+- Second hardening round (2026-09-06): new conformance case `empty-interface`
+  pins §2/§6 — an interface with no members (or with everything filtered out
+  by disabled feature gates) still emits its declaration file, world-referenced
+  or not; the suite is now 15 positive + 7 negative cases. The
+  `option-nullable` expected tree now carries the support `Nullable` import
+  (the reference implementation previously emitted `@Nullable` unresolvable;
+  Tier-1 digests are unaffected — imports are not compared, §14).
