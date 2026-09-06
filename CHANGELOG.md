@@ -21,7 +21,16 @@
 - Second hardening round (2026-09-06): new conformance case `empty-interface`
   pins §2/§6 — an interface with no members (or with everything filtered out
   by disabled feature gates) still emits its declaration file, world-referenced
-  or not; the suite is now 15 positive + 7 negative cases. The
-  `option-nullable` expected tree now carries the support `Nullable` import
-  (the reference implementation previously emitted `@Nullable` unresolvable;
-  Tier-1 digests are unaffected — imports are not compared, §14).
+  or not. `feature-gates` and `feature-gates-default` pin §2 both ways
+  (`--features` enables `@unstable(feature)` items; the default skip is
+  silent, not a diagnostic). `world-single-role` pins §7.1 (with `--role
+  guest` only the guest aggregates are generated and the role segment stays).
+  The suite is now 18 positive + 7 negative cases. The `option-nullable`
+  expected tree now carries the support `Nullable` import (the reference
+  implementation previously emitted `@Nullable` unresolvable; Tier-1 digests
+  are unaffected — imports are not compared, §14).
+- error-codes.md documents that WJ0005 is a defensive backstop: upstream
+  resolution rejects duplicate identifiers in every scope and WIT identifiers
+  cannot contain `_`, so no conforming input can trigger it — no negative
+  case exists. §5.6's record-mangling wording clarified (mangling scope is
+  the single record).
