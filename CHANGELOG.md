@@ -34,3 +34,16 @@
   cannot contain `_`, so no conforming input can trigger it — no negative
   case exists. §5.6's record-mangling wording clarified (mangling scope is
   the single record).
+- Third hardening round (2026-09-06): new conformance case
+  `reserved-interface-segment` pins §3.1/§3.3 — Java keywords as WIT
+  interface names mangle in the nested-style package segment
+  (`interface class` → `…class_`), and the world accessors mangle too
+  (`class_()`, `default_()`). §2 now requires a `--world` argument naming
+  no world in the input to be a usage error (exit 1) rather than silently
+  generating nothing. §7.3 corrected: `--role both` gives each role package
+  its own role's phrasing (`host.*` host phrasing, `guest.*` guest
+  phrasing) — the previous text claimed host phrasing for both,
+  contradicting the conformance data in `world-role`. §8 now forbids
+  generated files landing in the support package itself (silent overwrite;
+  sub-packages stay legal). The suite is now 19 positive + 7 negative
+  cases.
