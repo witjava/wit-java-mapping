@@ -56,4 +56,7 @@ Type references are canonicalized via each file's imports plus the set of
 declared types, so a simple-name style and an FQN style digest identically.
 The checker parses but does not compile; it knows nothing about WIT.
 
-TBD (D9): runner implementation in the reference repository.
+A reference runner lives in the implementation repository
+(`wit-java` → `crates/wit-java-core/tests/conformance.rs`): it consumes a
+vendored snapshot of this data, generates each case, and compares Tier-1
+digests through `tools/checker/Checker.java`.

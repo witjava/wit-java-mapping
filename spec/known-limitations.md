@@ -14,15 +14,15 @@ Every semantic loss must be recorded here before the spec freezes (M1 gate).
    conventions (`java.util.Optional` in record components / parameters) to
    preserve `option<option<T>>`; the `nullable` style rejects that case
    instead (WJ0006).
-5. **Type aliases erased** (R3) — `type x = y` and `use a.{b as c}` resolve to
+5. **Type aliases erased** — `type x = y` and `use a.{b as c}` resolve to
    the target type; no Java type is generated for the alias. Confirmed
    readability loss on real WIT: `wasi:sockets`' `ipv4-address` /
    `ipv6-address` (aliases to `tuple<u8, x4>` / `tuple<u16, x8>`) appear in
    Java signatures as positional `Tuple4<Integer, …>`, and `wasi:filesystem`'s
    `filesize` / `link-count` appear as bare `long`.
 
-Recorded during the B2 walkthrough (2026-09-06, `wasi:filesystem@0.2.8`,
-`wasi:sockets@0.2.8`, `wasi:io@0.2.8`):
+Recorded while walking real WASI packages by hand (2026-09-06,
+`wasi:filesystem@0.2.8`, `wasi:sockets@0.2.8`, `wasi:io@0.2.8`):
 
 6. **Variant payloads can carry resources** (e.g. `stream-error`'s
    `last-operation-failed(error)`): the payload maps to the resource's Java

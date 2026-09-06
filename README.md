@@ -15,7 +15,8 @@ world. The reference implementation lives at
 | `spec/error-codes.md` | diagnostic code registry |
 | `spec/known-limitations.md` | recorded semantic losses |
 | `conformance/` | self-test data for any implementation |
-| `tools/checker/` | Tier-1 API-shape checker (planned) |
+| `tools/checker/` | Tier-1 API-shape checker (JDK-only, zero dependencies) |
+| `spike/` | M2 spike: resource declaration shape vs. a real lowering layer |
 
 Status: **draft, not frozen**. After freeze the spec is append-only (`vN` can
 only be extended, never modified); the support-package FQN is part of the spec,

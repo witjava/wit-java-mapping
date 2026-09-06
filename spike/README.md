@@ -4,7 +4,7 @@
 falsified.** All scenarios pass with **zero modifications** to the
 hand-written declarations. `run.sh` reproduces everything.
 
-## The question (spec §19 M2)
+## The question (the M2 gate)
 
 WIT resources map to `interface X extends AutoCloseable` with no place for a
 native handle. A lowering layer must attach runtime state (handle tables,
@@ -63,7 +63,8 @@ This does not weaken the verdict for the question asked: the declaration
 shape is consumed identically either way — the canonical ABI lives
 entirely in the adapter and never reaches the declarations. But the spike
 does NOT validate full canonical-ABI feasibility on Chicory; that remains
-the future adapter's work, as planned (spec §1, §17).
+the future adapter's work, as planned (spec v1 §1: implementations of this
+spec produce declarations only; a component runtime adapter consumes them).
 
 ## Reproduce
 
