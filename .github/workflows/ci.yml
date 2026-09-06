@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  checker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: setup-java/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Tier-1 checker self-test
+        run: java tools/checker/Checker.java --selftest
+
+  conformance-data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate conformance data shape
+        run: |
+          python3 - <<'PY'
+          import re, sys, tomllib, pathlib
+          codes = set()
+          for line in pathlib.Path("spec/error-codes.md").read_text().splitlines():
+              m = re.match(r"\| (WJ\d{4}) \|", line)
+              if m:
+                  codes.add(m.group(1))
+          assert codes, "error-codes.md registry is empty"
+          problems = []
+          for case in sorted(pathlib.Path("conformance/cases").iterdir()):
+              if not case.is_dir():
+                  continue
+              tomls = {p.name for p in case.glob("*.toml")}
+              if "case.toml" not in tomls:
+                  problems.append(f"{case.name}: missing case.toml")
+                  continue
+              meta = tomllib.loads((case / "case.toml").read_text())
+              if not (case / "src.wit").exists() and not (case / "src").is_dir():
+                  problems.append(f"{case.name}: no src.wit or src/")
+              if "expected-error.toml" in tomls:
+                  err = tomllib.loads((case / "expected-error.toml").read_text())
+                  if err.get("code") not in codes:
+                      problems.append(f"{case.name}: unknown code {err.get('code')}")
+              elif "expected" not in {p.name for p in case.iterdir()}:
+                  problems.append(f"{case.name}: no expected/ and no expected-error.toml")
+          for p in problems:
+              print("BAD:", p)
+          sys.exit(1 if problems else 0)
+          PY

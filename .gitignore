@@ -1,0 +1,4 @@
+.localonly/
+.DS_Store
+spike/.libs/
+spike/.classes/
